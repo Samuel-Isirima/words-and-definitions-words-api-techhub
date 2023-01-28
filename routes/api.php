@@ -2,6 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\V1\SearchController;
+use App\Http\Controllers\V1\UserAuthController;
+use App\Http\Controllers\V1\FavouriteController;
 
 /*
 |--------------------------------------------------------------------------
