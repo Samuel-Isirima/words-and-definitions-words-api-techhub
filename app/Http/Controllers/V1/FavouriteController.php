@@ -19,4 +19,30 @@ class FavouriteController extends Controller
         $user = Auth::user();
         $favourites = Favourite::where('user_id', $user->id)->get();
     }
+
+    public function add(Request $request)
+    {
+        $request->validate([
+            'word' => 'required',
+        ]);
+
+        $favourite = Favourite::create($request->all());
+
+        return response()->json([
+            "success" => true,
+            "message" => "PFavourite added successfully.",
+            "data" => $favourite
+            ]);
+    }
+
+    public function delete(Favourite $favourite)
+    {
+        $favourite->delete();
+
+        return response()->json([
+            "success" => true,
+            "message" => "Favourite deleted successfully.",
+            "data" => $favourite
+            ]);
+    }
 }
