@@ -16,6 +16,7 @@ class FavouriteController extends Controller
 
     public function all($request)
     {
-        return Favourite::all();
+        $user = Auth::user();
+        $favourites = Favourite::where('user_id', $user->id)->get();
     }
 }

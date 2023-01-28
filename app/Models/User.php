@@ -41,4 +41,23 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    /**
+     * Get the favourites for the blog post.
+     */
+    public function favourites()
+    {
+        return $this->hasMany(Favourite::class);
+    }
+
+
+        /**
+     * Get the searches for the blog post.
+     */
+    public function searches()
+    {
+        return $this->hasMany(Search::class);
+    }
+
 }
