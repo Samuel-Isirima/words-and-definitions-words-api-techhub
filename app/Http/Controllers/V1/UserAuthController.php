@@ -75,6 +75,21 @@ class UserAuthController extends Controller
     }
 
 
+/*
+
+There would be no logout functionality because you do not log out of APIs using JWT for authentication
+And tokens do not change for an account
+Hence, if you invalidate the token, user cannot make any api calls
+
+Possible crude bypass for this problem
+On logout, invalidate token
+ON login, validate token
+
+Better solution:
+Handle the logout functionality on the client side
+
+
+Same thing for refresh functionality
 
     public function logout()
     {
@@ -86,7 +101,6 @@ class UserAuthController extends Controller
     }
 
 
-  
 
     public function refresh()
     {
@@ -100,7 +114,7 @@ class UserAuthController extends Controller
         ]);
     }
 
-
+*/
 
 
 }

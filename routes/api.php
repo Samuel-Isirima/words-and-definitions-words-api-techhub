@@ -46,7 +46,7 @@ Route::group([
     'middleware' => ['api'],
     'prefix' => 'v1'
 ], function ($router) {
-    Route::get('/search', [SearchController::class, 'index']);
+    Route::get('/search', [SearchController::class, 'search']);
 });
 
 
