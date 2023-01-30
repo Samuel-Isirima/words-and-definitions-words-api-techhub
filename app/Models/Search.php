@@ -9,5 +9,11 @@ class Search extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['word'];
+    protected $fillable = ['word', 'user_id'];
+    protected $table = "searches";
+
+    public function user()
+    {
+      return $this->belongsTo("User");
+    }
 }

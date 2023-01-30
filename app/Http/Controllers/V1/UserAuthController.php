@@ -8,6 +8,7 @@ use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 
 class UserAuthController extends Controller
 {
@@ -74,6 +75,17 @@ class UserAuthController extends Controller
         ]);
     }
 
+
+public static function getUser(Request $request)
+{
+    if(!$request->bearerToken())
+    {
+        return null;
+    }
+
+    $user = Auth::authenticate($request->bearerToken());
+    return $user;
+}
 
 /*
 

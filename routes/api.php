@@ -31,9 +31,10 @@ Route::group([
 
 
 Route::group([
-    'middleware' => ['api', 'authentication'],
+    'middleware' => ['api', 'auth'],
     'prefix' => 'v1'
 ], function ($router) {
+    Route::get('/searches', [SearchController::class, 'getSearches']);
     Route::get('/favourite', [FavouriteController::class, 'index']);
     Route::post('/favourite', [FavouriteController::class, 'logout']);
     Route::get('/favourite/{favourite}', [FavouriteController::class, 'index']);

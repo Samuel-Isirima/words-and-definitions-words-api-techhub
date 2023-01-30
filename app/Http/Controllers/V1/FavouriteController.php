@@ -21,10 +21,12 @@ class FavouriteController extends Controller
     }
 
 
-    public function all($request)
+    public function all(Request $request)
     {
-        $user = Auth::user();
-        $favourites = Favourite::where('user_id', $user->id)->get();
+        $user = UserAuthController::getUser($request);
+
+        $favourites = $user->favourites()->get();
+
         return response()->json([
             "success" => true,
             "message" => "Favourites fetched successfully.",
@@ -32,15 +34,18 @@ class FavouriteController extends Controller
             ], Response::HTTP_OK);
     }
 
+
     public function add(Request $request)
     {
+        $user = UserAuthController::getUser($request);
+        
         $request->validate([
             'word' => ['required', new UniqueFavouritesForEachUser],
         ]);
 
         $favourite = Favourite::create([
             'word' => $request->word,
-            'user_id' => Auth::user()->id,
+            'user_id' => $user->id,
         ]);
 
         return response()->json([   
@@ -51,7 +56,7 @@ class FavouriteController extends Controller
     }
 
 
-    public function delete(Favourite $favourite)
+    public function delete($favouriteID)
     {
         $favourite->delete();
 
@@ -63,7 +68,7 @@ class FavouriteController extends Controller
     }
 
 
-    public function details(Favourite $favourite)
+    public function details($favouriteID)
     {
         return response()->json([
             "success" => true,
