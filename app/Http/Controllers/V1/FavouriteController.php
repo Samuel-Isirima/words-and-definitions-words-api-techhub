@@ -10,8 +10,11 @@ namespace App\Http\Controllers\V1;
 use App\Models\Favourite;
 use Illuminate\Http\Request;
 use \Illuminate\Http\Response;
+use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 use App\Rules\UniqueFavouritesForEachUser;
+use App\Http\Controllers\V1\UserAuthController;
 
 class FavouriteController extends Controller
 {
@@ -39,9 +42,23 @@ class FavouriteController extends Controller
     {
         $user = UserAuthController::getUser($request);
         
-        $request->validate([
-            'word' => ['required', new UniqueFavouritesForEachUser],
+        $validator = Validator::make($request->all(), 
+        [
+            'word' => ['required', Rule::unique('favourites')->where(fn ($query) => $query->where('user_id', $user->id))]
         ]);
+        
+        $word = $request->word;
+        
+        if ($validator->fails()) 
+        {
+            return response()->json([   
+                "success" => false,
+                "message" => $word." already exists in your favourites.",
+                "word" => $word
+                ], Response::HTTP_BAD_REQUEST);
+        }
+
+        $word = strtolower($request->word);
 
         $favourite = Favourite::create([
             'word' => $request->word,
@@ -56,20 +73,40 @@ class FavouriteController extends Controller
     }
 
 
-    public function delete($favouriteID)
+    public function delete($id)
     {
+        $favourite = Favourite::find($id);
+
+        if(!$favourite)
+        {
+            return response()->json([
+                "success" => false,
+                "message" => "Favourite does not exist.",
+                ], Response::HTTP_BAD_REQUEST);
+        }
+
         $favourite->delete();
 
         return response()->json([
             "success" => true,
             "message" => "Favourite deleted successfully.",
-            "data" => $favourite
             ], Response::HTTP_OK);
     }
 
 
-    public function details($favouriteID)
+    public function details($id)
     {
+       
+        $favourite = Favourite::find($id);
+
+        if(!$favourite)
+        {
+            return response()->json([
+                "success" => false,
+                "message" => "Favourite does not exist.",
+                ], Response::HTTP_BAD_REQUEST);
+        }
+
         return response()->json([
             "success" => true,
             "message" => "Favourite fetched successfully.",

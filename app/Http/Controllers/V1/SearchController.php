@@ -19,7 +19,7 @@ class SearchController extends Controller
             'word' => 'required|string',
         ]);
 
-        $word = $request->word;
+        $word = strtolower($request->word);
 
         //Get user
         $user = UserAuthController::getUser($request);

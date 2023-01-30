@@ -35,10 +35,11 @@ Route::group([
     'prefix' => 'v1'
 ], function ($router) {
     Route::get('/searches', [SearchController::class, 'getSearches']);
-    Route::get('/favourite', [FavouriteController::class, 'index']);
-    Route::post('/favourite', [FavouriteController::class, 'logout']);
-    Route::get('/favourite/{favourite}', [FavouriteController::class, 'index']);
-    Route::delete('/favourite/{favourite}', [FavouriteController::class, 'register']);
+
+    Route::get('/favourites', [FavouriteController::class, 'all']);
+    Route::post('/favourites', [FavouriteController::class, 'add']);
+    Route::get('/favourites/{id}', [FavouriteController::class, 'details']);
+    Route::delete('/favourites/{id}', [FavouriteController::class, 'delete']);
 
 });
 
