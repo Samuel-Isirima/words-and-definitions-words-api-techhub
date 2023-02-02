@@ -81,17 +81,18 @@ class FavouriteController extends Controller
         ->where('user_id', '=', $user->id)
         ->first();
 
-        $favourites = $user->favourites()->get();
 
         if(!$favourite)
         {
             return response()->json([
                 "success" => false,
-                "message" => "Favourite does not exist.",
+                "message" => $word." is not in your favourites.",
                 ], Response::HTTP_BAD_REQUEST);
         }
 
         $favourite->delete();
+
+        $favourites = $user->favourites()->get();
 
         return response()->json([
             "success" => true,
