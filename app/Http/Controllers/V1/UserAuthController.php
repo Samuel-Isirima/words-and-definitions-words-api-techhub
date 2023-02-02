@@ -49,14 +49,14 @@ class UserAuthController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'user_name' => 'required|string',
+            'username' => 'required|string',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6',
         ]);
 
 
         $user = User::create([
-            'user_name' => $request->user_name,
+            'user_name' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);

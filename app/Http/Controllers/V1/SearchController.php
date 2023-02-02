@@ -75,6 +75,11 @@ class SearchController extends Controller
     
 
         $jsonData = $response->json();
+        /*
+        The sample api response from the dictionary api has a structure that requires the kind of 
+        value assignment below.
+        Study the sample-dictionary-api-response.json file to understand
+        */
         $senses_array = $jsonData['results'][0]['lexicalEntries'][0]['entries'][0]['senses'];
         $definitions_array = [];
 
