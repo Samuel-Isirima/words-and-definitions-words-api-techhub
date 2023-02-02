@@ -73,9 +73,13 @@ class FavouriteController extends Controller
     }
 
 
-    public function delete($id)
+    public function delete(Request $request, $word)
     {
-        $favourite = Favourite::find($id);
+        $user = UserAuthController::getUser($request);
+
+        $favourite = Favourite::where('word', '=', $word)
+        ->where('user_id', '=', $user->id)
+        ->first();
 
         if(!$favourite)
         {

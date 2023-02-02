@@ -23,6 +23,7 @@ class SearchController extends Controller
 
         //Get user
         $user = UserAuthController::getUser($request);
+        $word_in_favourite = false;
 
         if(!!$user)
         {
@@ -30,6 +31,10 @@ class SearchController extends Controller
                 'user_id' => $user->id,
                 'word' => $word,
             ]);   
+
+            $word_in_favourite = !!\App\Models\Favourite::where('word', '=', $word)
+            ->where('user_id', '=', $user->id)
+            ->first();
         }
 
         $response = Http::withHeaders([
@@ -67,6 +72,8 @@ class SearchController extends Controller
             ], $response->status());
         }
 
+    
+
         $jsonData = $response->json();
         $senses_array = $jsonData['results'][0]['lexicalEntries'][0]['entries'][0]['senses'];
         $definitions_array = [];
@@ -91,6 +98,7 @@ class SearchController extends Controller
             'message' => 'Search request carried out successfully',
             'user' => $user,
             'data' => $definitions_array,
+            'in_favourites' => $word_in_favourite
         ], Response::HTTP_OK);
     }
 
