@@ -81,6 +81,8 @@ class FavouriteController extends Controller
         ->where('user_id', '=', $user->id)
         ->first();
 
+        $favourites = $user->favourites()->get();
+
         if(!$favourite)
         {
             return response()->json([
@@ -94,6 +96,7 @@ class FavouriteController extends Controller
         return response()->json([
             "success" => true,
             "message" => "Favourite deleted successfully.",
+            "favourites" => $favourites,
             ], Response::HTTP_OK);
     }
 

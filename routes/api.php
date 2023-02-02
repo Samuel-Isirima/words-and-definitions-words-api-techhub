@@ -39,7 +39,7 @@ Route::group([
     Route::get('/favourites', [FavouriteController::class, 'all']);
     Route::post('/favourites', [FavouriteController::class, 'add']);
     Route::get('/favourites/{id}', [FavouriteController::class, 'details']);
-    Route::delete('/favourites/{id}', [FavouriteController::class, 'delete']);
+    Route::delete('/favourites/{word}', [FavouriteController::class, 'delete']);
 
 });
 
