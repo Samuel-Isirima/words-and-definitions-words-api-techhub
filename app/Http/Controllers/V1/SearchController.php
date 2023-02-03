@@ -112,7 +112,7 @@ public function getSearches(Request $request)
 {
     $user = UserAuthController::getUser($request);
 
-    $searches = $user->searches()->get();
+    $searches = $user->searches()->limit(5)->get();
 
     return response()->json([
         'status' => 'success',
@@ -121,5 +121,32 @@ public function getSearches(Request $request)
         'data' => $searches,
     ], Response::HTTP_OK);
 }
+
+
+public function delete(Request $request, $id)
+{
+    $user = UserAuthController::getUser($request);
+
+    $search = Search::find($id);
+
+    if(!$search)
+    {
+        return response()->json([
+            "success" => false,
+            "message" => "Previous search could not be found",
+            ], Response::HTTP_BAD_REQUEST);
+    }
+
+    $search->delete();
+
+    $searches = $user->searches()->get();
+
+    return response()->json([
+        "success" => true,
+        "message" => "Favourite deleted successfully.",
+        "searches" => $searches,
+        ], Response::HTTP_OK);
+}
+
 
 }

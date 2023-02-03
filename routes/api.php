@@ -35,6 +35,7 @@ Route::group([
     'prefix' => 'v1'
 ], function ($router) {
     Route::get('/searches', [SearchController::class, 'getSearches']);
+    Route::delete('/searches/{id}', [SearchController::class, 'delete']);
 
     Route::get('/favourites', [FavouriteController::class, 'all']);
     Route::post('/favourites', [FavouriteController::class, 'add']);
