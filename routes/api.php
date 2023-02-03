@@ -19,7 +19,7 @@ use App\Http\Controllers\V1\FavouriteController;
 
 
 Route::group([
-    'middleware' => 'api',
+    'middleware' => ['api'],
     'prefix' => 'v1/auth'
 ], function ($router) {
     Route::post('/login', [UserAuthController::class, 'login']);
@@ -45,8 +45,9 @@ Route::group([
 });
 
 
+
 Route::group([
-    'middleware' => ['api'],
+    'middleware' => ['api', 'throttle:2,1'],
     'prefix' => 'v1'
 ], function ($router) {
     Route::get('/search', [SearchController::class, 'search']);

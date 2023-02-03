@@ -112,7 +112,7 @@ public function getSearches(Request $request)
 {
     $user = UserAuthController::getUser($request);
 
-    $searches = $user->searches()->limit(5)->get();
+    $searches = $user->searches()->orderBy('created_at', 'desc')->get();
 
     return response()->json([
         'status' => 'success',
@@ -139,11 +139,11 @@ public function delete(Request $request, $id)
 
     $search->delete();
 
-    $searches = $user->searches()->get();
+    $searches = $user->searches()->orderBy('created_at', 'desc')->get();
 
     return response()->json([
         "success" => true,
-        "message" => "Favourite deleted successfully.",
+        "message" => $search->word." has been deleted from your search history successfully.",
         "searches" => $searches,
         ], Response::HTTP_OK);
 }
